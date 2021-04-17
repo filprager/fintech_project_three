@@ -2,7 +2,7 @@
 ![Image](https://raw.githubusercontent.com/filprager/fintech_project_two/layout/image/Etm4yFZUcAAoN5u.jpeg)
 
 
-# SillyCon App
+# Scope App
 
 
 ## Job description
