@@ -52,7 +52,7 @@ contract TaskAuction {
             // because it could execute an untrusted contract.
             // It is always safer to let the recipients
             // withdraw their money themselves.
-            pendingReturns[lowestBidder] = lowestBid;
+            pendingReturns[lowestBidder] += lowestBid;
         }
         lowestBidder = sender;
         lowestBid = amount;
