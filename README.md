@@ -6,6 +6,7 @@
 
 
 ## How to run the dApp
+Click [here](frontend/index.html) to launch the Airtasker on Chain application.
 
 
 ## Job distribution
