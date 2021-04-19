@@ -10,7 +10,7 @@ Click [here](frontend/index.html) to launch the Airtasker on Chain application.
 
 ## Examples
 Homepage
-![Homepage](image/Homepage.png)
+![Homepage](image/homepage.png)
 
 
 ## Technology Stack
