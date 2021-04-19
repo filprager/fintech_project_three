@@ -21,12 +21,29 @@ Solidity, Pinnata, Remix, Ganache, HTML, JavaScript
 
 
 ## Contributors
-- Fil = 
+Fil (@filprager)  
+- Email:  
+- LinkedIn:   
+- Twitter:
+- Tasks:    
 
-- Mark = 
+Mark (@marksenyang)
+- Email: marksenyang@gmail.com
+- LinkedIn: https://www.linkedin.com/in/marksenyang/
+- Twitter: https://twitter.com/MarkSenYangAu
+- Tasks: 
 
-- Paul = 
+Paul (@emo-hs)
+- Email: 
+- LinkedIn: 
+- Twitter: 
+- Tasks: 
 
-- Sammuel = 
+Sammuel (@risksam)
+- Email: 
+- LinkedIn: 
+- Twitter: 
+- Tasks: 
+
 
 
