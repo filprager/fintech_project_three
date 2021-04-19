@@ -1,40 +1,49 @@
-# Airtasker on blockchain - homeowner seeking handy work
+# Airtasker on Chain - homeowner seeking handy work
+Airtasker on Chain is a dApp that connects homeowners with builders together by auctioning handy tasks.
 
-![Image](image/profile.jpg)
-
-## Introduction
-
-
-## How to run the dApp
+![profile](image/profile.jpg)
 
 
-## Job distribution
-
-- Fil = 
-
-- Mark = 
-
-- Paul = 
-
-- Sammuel = 
+## How to Run the dApp
+Click [here](frontend/index.html) to launch the Airtasker on Chain application.
 
 
-## Goal
+## Examples
+Homepage
+![Homepage](image/Homepage.png)
 
 
-
-## User Input
-
-
-## dApp Output
-
-
-## Libraries Used
-
-
-## APIs Used
+## Technology Stack
+Solidity, Pinnata, Remix, Ganache, HTML, JavaScript
 
 
 ## Explanation of Each File and Folder 
+
+
+## Contributors
+Fil (@filprager)  
+- Email:  
+- LinkedIn:   
+- Twitter:
+- Tasks:    
+
+Mark (@marksenyang)
+- Email: marksenyang@gmail.com
+- LinkedIn: https://www.linkedin.com/in/marksenyang/
+- Twitter: https://twitter.com/MarkSenYangAu
+- Tasks: 
+
+Paul (@emo-hs)
+- Email: 
+- LinkedIn: 
+- Twitter: 
+- Tasks: 
+
+Sammuel (@risksam)
+- Email: 
+- LinkedIn: 
+- Twitter: 
+- Tasks: 
+
 
 
