@@ -1,11 +1,11 @@
-pragma solidity ^0.5.5;
+pragma solidity >=0.4.22 <0.6.0;
 
 contract TaskAuction {
+    address payable public beneficiary;
 
     // Current state of the auction.
-    address payable public beneficiary;
-    address payable public lowestBidder;
-    uint public lowestBid = 10000000000000;
+    address public lowestBidder;
+    uint public lowestBid = 100000000000000;
 
     // Allowed withdrawals of previous bids
     mapping(address => uint) pendingReturns;
@@ -28,7 +28,7 @@ contract TaskAuction {
     /// beneficiary address `_beneficiary`.
     constructor(
         address payable _beneficiary
-    ) public payable {
+    ) public {
         beneficiary = _beneficiary;
     }
 
@@ -41,7 +41,7 @@ contract TaskAuction {
         // money back.
         require(
             amount < lowestBid,
-            "There already is a lower bid."
+            "There already is a higher bid."
         );
 
         require(!ended, "auctionEnd has already been called.");
@@ -81,7 +81,7 @@ contract TaskAuction {
         return pendingReturns[sender];
     }
 
-    /// End the auction and send the highest bid
+    /// End the auction and send the lowest bid
     /// to the beneficiary.
     function auctionEnd() public {
         // It is a good guideline to structure functions that interact
@@ -106,6 +106,6 @@ contract TaskAuction {
         emit AuctionEnded(lowestBidder, lowestBid);
 
         // 3. Interaction
-        lowestBidder.transfer(lowestBid);
+        beneficiary.transfer(lowestBid);
     }
 }

@@ -21,16 +21,15 @@ contract TaskMarket is ERC721Full, Ownable {
         _;
     }
 
-    function registerTask(string memory uri, uint max_price) public payable onlyOwner {
+    function registerTask(string memory uri) public payable onlyOwner {
         token_ids.increment();
         uint token_id = token_ids.current();
         _mint(foundation_address, token_id);
         _setTokenURI(token_id, uri);
         createAuction(token_id);
-        bid(token_id, max_price);
     }
 
-    function createAuction(uint token_id) public payable onlyOwner {
+    function createAuction(uint token_id) public onlyOwner {
         auctions[token_id] = new TaskAuction(foundation_address);
     }
 

@@ -106,8 +106,8 @@
 		],
 		"name": "createAuction",
 		"outputs": [],
-		"payable": true,
-		"stateMutability": "payable",
+		"payable": false,
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -151,11 +151,6 @@
 				"internalType": "string",
 				"name": "uri",
 				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "max_price",
-				"type": "uint256"
 			}
 		],
 		"name": "registerTask",

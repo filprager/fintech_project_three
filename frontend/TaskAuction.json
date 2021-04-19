@@ -7,8 +7,8 @@
 				"type": "address"
 			}
 		],
-		"payable": true,
-		"stateMutability": "payable",
+		"payable": false,
+		"stateMutability": "nonpayable",
 		"type": "constructor"
 	},
 	{
@@ -129,7 +129,7 @@
 		"name": "lowestBidder",
 		"outputs": [
 			{
-				"internalType": "address payable",
+				"internalType": "address",
 				"name": "",
 				"type": "address"
 			}

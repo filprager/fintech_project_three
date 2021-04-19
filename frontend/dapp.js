@@ -1,5 +1,5 @@
 // @TODO: Update this address to match your deployed TaskMarket contract!
-const contractAddress = "0xa83640992bcED2976c142C4a31D49982050901d3";
+const contractAddress = "0x0154D1335A9113235e2C2dD917DB39D1480134F8";
 
 const dApp = {
   ethEnabled: function() {
@@ -12,7 +12,7 @@ const dApp = {
     return false;
   },
   collectVars: async function() {
-    // get land tokens
+    // get Task tokens
     this.tokens = [];
     this.totalSupply = await this.marsContract.methods.totalSupply().call();
 
@@ -27,7 +27,7 @@ const dApp = {
         console.log('token json', token_json)
         this.tokens.push({
           tokenId: i,
-          highestBid: Number(await this.marsContract.methods.highestBid(i).call()),
+          lowestBid: Number(await this.marsContract.methods.lowestBid(i).call()),
           auctionEnded: Boolean(await this.marsContract.methods.auctionEnded(i).call()),
           pendingReturn: Number(await this.marsContract.methods.pendingReturn(i, this.accounts[0]).call()),
           auction: new window.web3.eth.Contract(
@@ -72,7 +72,7 @@ const dApp = {
                   <span id="dapp-name" class="card-title">${token.name}</span>
                 </div>
                 <div class="card-action">
-                  <input type="number" min="${token.highestBid + 1}" name="dapp-wei" value="${token.highestBid + 1}" ${token.auctionEnded ? 'disabled' : ''}>
+                  <input type="number" min="${token.lowestBid - 1}" name="dapp-wei" value="${token.lowestBid - 1}" ${token.auctionEnded ? 'disabled' : ''}>
                   ${token.auctionEnded ? owner : bid}
                   ${token.pendingReturn > 0 ? withdraw : ''}
                   ${token.pendingReturn > 0 ? pendingWithdraw : ''}
@@ -104,11 +104,12 @@ const dApp = {
   },
   withdraw: async function(event) {
     const tokenId = $(event.target).attr("id");
-    await this.tokens[tokenId].auction.methods.withdraw().send({from: this.accounts[0]}, async () => {
+    // await this.tokens[tokenId].auction.methods.withdraw().send({from: this.accounts[0]}, async () => {
+    await this.marsContract.methods.withdraw().send({from: this.accounts[0]}, async () => {  
       await this.updateUI();
     });
   },
-  registerLand: async function() {
+  registerTask: async function() {
     const name = $("#dapp-register-name").val();
     const image = document.querySelector('input[type="file"]');
 
@@ -164,7 +165,7 @@ const dApp = {
       M.toast({ html: `Success. Reference URI located at ${reference_uri}.` });
       M.toast({ html: "Sending to blockchain..." });
 
-      await this.marsContract.methods.registerLand(reference_uri).send({from: this.accounts[0]}, async () => {
+      await this.marsContract.methods.registerTask(reference_uri).send({from: this.accounts[0]}, async () => {
         $("#dapp-register-name").val("");
         $("#dapp-register-image").val("");
         await this.updateUI();
