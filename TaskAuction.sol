@@ -83,7 +83,7 @@ contract TaskAuction {
 
     /// End the auction and send the lowest bid
     /// to the beneficiary.
-    function auctionEnd() public {
+    function auctionEnd(address payable sender) public {
         // It is a good guideline to structure functions that interact
         // with other contracts (i.e. they call functions or send Ether)
         // into three phases:
@@ -99,13 +99,13 @@ contract TaskAuction {
 
         // 1. Conditions
         require(!ended, "auctionEnd has already been called.");
-        require(msg.sender == beneficiary, "You are not the auction beneficiary");
+        require(sender == beneficiary, "You are not the auction beneficiary");
 
         // 2. Effects
         ended = true;
         emit AuctionEnded(lowestBidder, lowestBid);
 
         // 3. Interaction
-        beneficiary.transfer(lowestBid);
+        // beneficiary.transfer(lowestBid);
     }
 }

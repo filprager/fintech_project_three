@@ -51,7 +51,13 @@
 	},
 	{
 		"constant": false,
-		"inputs": [],
+		"inputs": [
+			{
+				"internalType": "address payable",
+				"name": "sender",
+				"type": "address"
+			}
+		],
 		"name": "auctionEnd",
 		"outputs": [],
 		"payable": false,
