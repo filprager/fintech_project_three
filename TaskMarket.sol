@@ -35,7 +35,7 @@ contract TaskMarket is ERC721Full, Ownable {
 
     function endAuction(uint token_id) public onlyOwner taskRegistered(token_id) {
         TaskAuction auction = auctions[token_id];
-        auction.auctionEnd();
+        auction.auctionEnd(msg.sender);
         safeTransferFrom(owner(), auction.lowestBidder(), token_id);
     }
 
@@ -57,6 +57,14 @@ contract TaskMarket is ERC721Full, Ownable {
     function bid(uint token_id, uint amount) public taskRegistered(token_id) {
         TaskAuction auction = auctions[token_id];
         auction.bid(msg.sender, amount);
+    }
+    
+    // Pay ETH to the TaskAuction contract as a deposit that is equal to the maximum price the homeowner is willing to accept
+    function deposit(uint token_id) public payable {
+        require(msg.value > 0, "Your deposit needs to be greater than 0");
+        TaskAuction auction = auctions[token_id];
+        auction.deposit.value(msg.value)();
+        bid(token_id, msg.value);
     }
 
 }
