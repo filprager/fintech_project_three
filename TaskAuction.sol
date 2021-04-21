@@ -108,4 +108,11 @@ contract TaskAuction {
         // 3. Interaction
         // beneficiary.transfer(lowestBid);
     }
+    
+    // Pay ETH to the TaskAuction contract
+    function deposit() public payable {}
+    
+    function balance() public view returns(uint) {
+        return address(this).balance;
+    }
 }

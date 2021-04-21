@@ -241,6 +241,21 @@
 				"type": "uint256"
 			}
 		],
+		"name": "deposit",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "token_id",
+				"type": "uint256"
+			}
+		],
 		"name": "endAuction",
 		"outputs": [],
 		"payable": false,
