@@ -59,7 +59,8 @@ contract TaskMarket is ERC721Full, Ownable {
         auction.bid(msg.sender, amount);
     }
     
-    // Pay ETH to the TaskAuction contract as a deposit that is equal to the maximum price the homeowner is willing to accept
+    // Pay ETH to the TaskAuction contract as a deposit that is equal to the maximum price the homeowner is willing to pay
+    // Set up the max price by bidding with the deposit amount
     function deposit(uint token_id) public payable {
         require(msg.value > 0, "Your deposit needs to be greater than 0");
         TaskAuction auction = auctions[token_id];
