@@ -4,8 +4,8 @@ contract TaskAuction {
     address payable public beneficiary;
 
     // Current state of the auction.
-    address public lowestBidder;
-    uint public lowestBid = 100000000000000;
+    address payable public lowestBidder;
+    uint public lowestBid = 1000000000000000000000000;
 
     // Allowed withdrawals of previous bids
     mapping(address => uint) pendingReturns;
@@ -41,7 +41,7 @@ contract TaskAuction {
         // money back.
         require(
             amount < lowestBid,
-            "There already is a higher bid."
+            "There already is a lower bid."
         );
 
         require(!ended, "auctionEnd has already been called.");
@@ -106,7 +106,7 @@ contract TaskAuction {
         emit AuctionEnded(lowestBidder, lowestBid);
 
         // 3. Interaction
-        // beneficiary.transfer(lowestBid);
+        lowestBidder.transfer(lowestBid);
     }
     
     // Pay ETH to the TaskAuction contract as a deposit
