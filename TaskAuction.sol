@@ -1,14 +1,14 @@
 pragma solidity >=0.4.22 <0.6.0;
 
 contract TaskAuction {
-    address payable public beneficiary;
+    address payable public homeowner;
 
     // Current state of the auction.
     address payable public lowestBidder;
-    uint public lowestBid = 1000000000000000000000000;
-
+    uint public lowestBid;
+    
     // Allowed withdrawals of previous bids
-    mapping(address => uint) pendingReturns;
+    mapping(address => uint) pendingBids;
 
     // Set to true at the end, disallows any change.
     // By default initialized to `false`.
@@ -17,19 +17,20 @@ contract TaskAuction {
     // Events that will be emitted on changes.
     event LowestBidDecreased(address bidder, uint amount);
     event AuctionEnded(address winner, uint amount);
-
-    // The following is a so-called natspec comment,
-    // recognizable by the three slashes.
-    // It will be shown when the user is asked to
-    // confirm a transaction.
-
+    
     /// Create a simple auction with `_biddingTime`
     /// seconds bidding time on behalf of the
     /// beneficiary address `_beneficiary`.
     constructor(
-        address payable _beneficiary
+        address payable _homeowner
     ) public {
-        beneficiary = _beneficiary;
+        homeowner = _homeowner;
+    }
+
+    // Pay ETH to the TaskAuction contract as a deposit
+    function deposit() public payable {
+        require(msg.sender == homeowner, "You cannot deposit into this auction!");
+         lowestBid = msg.value;
     }
 
     /// Bid on the auction with the value sent
@@ -45,45 +46,23 @@ contract TaskAuction {
         );
 
         require(!ended, "auctionEnd has already been called.");
-
         if (lowestBid != 0) {
             // Sending back the money by simply using
             // highestBidder.send(highestBid) is a security risk
             // because it could execute an untrusted contract.
             // It is always safer to let the recipients
             // withdraw their money themselves.
-            pendingReturns[lowestBidder] += lowestBid;
+            pendingBids[lowestBidder] += lowestBid;
         }
+        
         lowestBidder = sender;
         lowestBid = amount;
         emit LowestBidDecreased(sender, amount);
     }
 
-    /// Withdraw a bid that was overbid.
-    function withdraw() public returns (bool) {
-        uint amount = pendingReturns[msg.sender];
-        if (amount > 0) {
-            // It is important to set this to zero because the recipient
-            // can call this function again as part of the receiving call
-            // before `send` returns.
-            pendingReturns[msg.sender] = 0;
-
-            if (!msg.sender.send(amount)) {
-                // No need to call throw here, just reset the amount owing
-                pendingReturns[msg.sender] = amount;
-                return false;
-            }
-        }
-        return true;
-    }
-
-    function pendingReturn(address sender) public view returns (uint) {
-        return pendingReturns[sender];
-    }
-
     /// End the auction and send the lowest bid
     /// to the beneficiary.
-    function auctionEnd(address payable sender) public {
+    function auctionEnd() public payable {
         // It is a good guideline to structure functions that interact
         // with other contracts (i.e. they call functions or send Ether)
         // into three phases:
@@ -99,18 +78,18 @@ contract TaskAuction {
 
         // 1. Conditions
         require(!ended, "auctionEnd has already been called.");
-        require(sender == beneficiary, "You are not the auction beneficiary");
+        require(msg.sender == homeowner, "You are not the auction beneficiary");
 
         // 2. Effects
         ended = true;
         emit AuctionEnded(lowestBidder, lowestBid);
 
-        // 3. Interaction
+        // 3. Interaction. Transfer the amount of lowest bid to the lowest bidder, and transfer the remainder of ETH to the homeowner
         lowestBidder.transfer(lowestBid);
+        msg.sender.transfer(address(this).balance);
     }
     
-    // Pay ETH to the TaskAuction contract as a deposit
-    function deposit() public payable {}
+    
     
     // Check the ETH balance of the TaskAuction Contract
     function balance() public view returns(uint) {
