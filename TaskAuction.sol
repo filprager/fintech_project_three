@@ -105,8 +105,9 @@ contract TaskAuction {
         ended = true;
         emit AuctionEnded(lowestBidder, lowestBid);
 
-        // 3. Interaction
+        // 3. Interaction. Transfer the amount of lowest bid to the lowest bidder, and transfer the remainder of ETH to the homeowner
         lowestBidder.transfer(lowestBid);
+        beneficiary.transfer(address(this).balance);
     }
     
     // Pay ETH to the TaskAuction contract as a deposit
