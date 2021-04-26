@@ -3,10 +3,30 @@ pragma solidity ^0.5.0;
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v2.5.0/contracts/token/ERC721/ERC721Full.sol";
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v2.5.0/contracts/ownership/Ownable.sol";
 import "./TaskAuction.sol";
+import "./AirTokenMintable.sol";
+import "./AirTokenSale.sol";
 
 contract TaskMarket is ERC721Full, Ownable {
+    address public air_sale_address;
+    address public token_address;
+    AirToken token;
+    AirTokenSale air_sale;
 
-    constructor() ERC721Full("TaskMarket", "TASK") public {}
+    constructor() ERC721Full("TaskMarket", "TASK") public {
+        // Deploy Air Token Sale
+        
+        // create the AirToken and keep its address handy
+        token = new AirToken('Air Token', 'AIRT', 0);
+        token_address = address(token);
+
+        // create the AirTokenSale and tell it about the token
+        air_sale = new AirTokenSale(1, msg.sender, token);
+        air_sale_address = address(air_sale);
+
+        // make the AirTokenSale contract a minter, then have the AirTokenSaleDeployer renounce its minter role
+        token.addMinter(air_sale_address);
+        token.renounceMinter();
+    }
 
     using Counters for Counters.Counter;
 
@@ -67,5 +87,14 @@ contract TaskMarket is ERC721Full, Ownable {
         auction.deposit.value(msg.value)();
         bid(token_id, msg.value);
     }
-
+    
+    // Buy Air Tokens by ETH
+    function recharge() public payable {
+        air_sale.buyTokens.value(msg.value)(msg.sender);
+    }
 }
+
+
+
+
+
