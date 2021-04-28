@@ -34,6 +34,7 @@ contract TaskMarket is ERC721Full, Ownable {
 
     address payable foundation_address = msg.sender;
 
+
     mapping(uint => TaskAuction) public auctions;
 
     modifier taskRegistered(uint token_id) {
@@ -41,22 +42,24 @@ contract TaskMarket is ERC721Full, Ownable {
         _;
     }
 
-    function registerTask(string memory uri) public payable onlyOwner {
+     function createAuction(uint token_id, address payable homeowner) public payable {
+        auctions[token_id] = new TaskAuction(homeowner);
+        
+    }
+
+    function registerTask(string memory uri, address payable homeowner) public payable {
         token_ids.increment();
         uint token_id = token_ids.current();
         _mint(foundation_address, token_id);
         _setTokenURI(token_id, uri);
-        createAuction(token_id);
+        createAuction(token_id, homeowner);
+        safeTransferFrom(owner(), homeowner, token_id);
     }
 
-    function createAuction(uint token_id) public onlyOwner {
-        auctions[token_id] = new TaskAuction(foundation_address);
-    }
-
-    function endAuction(uint token_id) public onlyOwner taskRegistered(token_id) {
+    function endAuction(uint token_id) public taskRegistered(token_id) {
         TaskAuction auction = auctions[token_id];
         auction.auctionEnd(msg.sender);
-        safeTransferFrom(owner(), auction.lowestBidder(), token_id);
+        safeTransferFrom(msg.sender, auction.lowestBidder(), token_id);
     }
 
     function auctionEnded(uint token_id) public view returns(bool) {
@@ -69,9 +72,9 @@ contract TaskMarket is ERC721Full, Ownable {
         return auction.lowestBid();
     }
 
-    function pendingReturn(uint token_id, address sender) public view taskRegistered(token_id) returns(uint) {
+    function pendingDeposit(uint token_id) public view taskRegistered(token_id) returns(uint) {
         TaskAuction auction = auctions[token_id];
-        return auction.pendingReturn(sender);
+        return auction.balance();
     }
 
     function bid(uint token_id, uint amount) public taskRegistered(token_id) {
@@ -81,6 +84,14 @@ contract TaskMarket is ERC721Full, Ownable {
     
     // Pay ETH to the TaskAuction contract as a deposit that is equal to the maximum price the homeowner is willing to pay
     // Set up the max price by bidding with the deposit amount
+
+    function deposit(uint token_id) public payable{
+        require(msg.value > 0, "Your deposit needs to be greater than 0");
+        TaskAuction auction = auctions[token_id];
+        auction.deposit.value(msg.value)(msg.sender);
+       
+    }
+
     // function set_max_price_ETH(uint token_id) public payable {
     //     require(msg.value > 0, "Your max price needs to be greater than 0");
     //     TaskAuction auction = auctions[token_id];
@@ -104,6 +115,7 @@ contract TaskMarket is ERC721Full, Ownable {
         return token.balanceOf(msg.sender);
     }
 }
+
 
 
 
