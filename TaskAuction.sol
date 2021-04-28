@@ -28,8 +28,9 @@ contract TaskAuction {
     }
 
     // Pay ETH to the TaskAuction contract as a deposit
-    function deposit() public payable {
-        require(msg.sender == homeowner, "You cannot deposit into this auction!");
+    function deposit(address payable sender) public payable {
+        require(sender == homeowner, "You cannot deposit into this auction!");
+        require(!ended, "auctionEnd has already been called.");
          lowestBid = msg.value;
     }
 
@@ -44,6 +45,7 @@ contract TaskAuction {
             amount < lowestBid,
             "There already is a lower bid."
         );
+        require(sender != homeowner, "You cannot bid on your own task!");
 
         require(!ended, "auctionEnd has already been called.");
         if (lowestBid != 0) {
@@ -62,7 +64,7 @@ contract TaskAuction {
 
     /// End the auction and send the lowest bid
     /// to the beneficiary.
-    function auctionEnd() public payable {
+    function auctionEnd(address payable sender) public payable {
         // It is a good guideline to structure functions that interact
         // with other contracts (i.e. they call functions or send Ether)
         // into three phases:
@@ -78,7 +80,7 @@ contract TaskAuction {
 
         // 1. Conditions
         require(!ended, "auctionEnd has already been called.");
-        require(msg.sender == homeowner, "You are not the auction beneficiary");
+        require(sender == homeowner, "You are not the auction beneficiary");
 
         // 2. Effects
         ended = true;
@@ -86,7 +88,7 @@ contract TaskAuction {
 
         // 3. Interaction. Transfer the amount of lowest bid to the lowest bidder, and transfer the remainder of ETH to the homeowner
         lowestBidder.transfer(lowestBid);
-        msg.sender.transfer(address(this).balance);
+        sender.transfer(address(this).balance);
     }
     
     
