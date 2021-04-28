@@ -44,7 +44,7 @@ contract TaskMarket is ERC721Full, Ownable {
 
      function createAuction(uint token_id, address payable homeowner) public payable {
         auctions[token_id] = new TaskAuction(homeowner);
-        
+
     }
 
     function registerTask(string memory uri, address payable homeowner) public payable {
@@ -82,32 +82,17 @@ contract TaskMarket is ERC721Full, Ownable {
         auction.bid(msg.sender, amount);
     }
     
-    // Pay ETH to the TaskAuction contract as a deposit that is equal to the maximum price the homeowner is willing to pay
-    // Set up the max price by bidding with the deposit amount
-
+    // Pay ETH to the TaskAuction contract as a deposit that is equal to the maximum price the homeowner is willing to pay, and
+    // set up the max price by bidding with the deposit amount
     function deposit(uint token_id) public payable{
         require(msg.value > 0, "Your deposit needs to be greater than 0");
         TaskAuction auction = auctions[token_id];
         auction.deposit.value(msg.value)(msg.sender);
-       
     }
-
-    // function set_max_price_ETH(uint token_id) public payable {
-    //     require(msg.value > 0, "Your max price needs to be greater than 0");
-    //     TaskAuction auction = auctions[token_id];
-    //     auction.deposit.value(msg.value)();
-    //     bid(token_id, msg.value);
-    // }
     
     // Buy Air Tokens by ETH
     function recharge() public payable {
         air_sale.buyTokens.value(msg.value)(msg.sender);
-    }
-    
-    // Set the max price for a task
-    function set_max_price_air(uint token_id, uint amount) public {
-        require(amount > 0, "Your max price needs to be greater than 0");
-        bid(token_id, amount);
     }
     
     // Check the balance of Air Token 

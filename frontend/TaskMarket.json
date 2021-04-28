@@ -102,12 +102,32 @@
 				"internalType": "uint256",
 				"name": "token_id",
 				"type": "uint256"
+			},
+			{
+				"internalType": "address payable",
+				"name": "homeowner",
+				"type": "address"
 			}
 		],
 		"name": "createAuction",
 		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "token_id",
+				"type": "uint256"
+			}
+		],
+		"name": "deposit",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
 		"type": "function"
 	},
 	{
@@ -160,6 +180,11 @@
 				"internalType": "string",
 				"name": "uri",
 				"type": "string"
+			},
+			{
+				"internalType": "address payable",
+				"name": "homeowner",
+				"type": "address"
 			}
 		],
 		"name": "registerTask",
@@ -227,26 +252,6 @@
 			}
 		],
 		"name": "safeTransferFrom",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "token_id",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "set_max_price_air",
 		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
@@ -586,14 +591,9 @@
 				"internalType": "uint256",
 				"name": "token_id",
 				"type": "uint256"
-			},
-			{
-				"internalType": "address",
-				"name": "sender",
-				"type": "address"
 			}
 		],
-		"name": "pendingReturn",
+		"name": "pendingDeposit",
 		"outputs": [
 			{
 				"internalType": "uint256",
