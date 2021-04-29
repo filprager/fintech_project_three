@@ -31,7 +31,7 @@ contract TaskAuction {
     function deposit(address payable sender) public payable {
         require(sender == homeowner, "You cannot deposit into this auction!");
         require(!ended, "auctionEnd has already been called.");
-         lowestBid = msg.value;
+        lowestBid = msg.value;
     }
 
     /// Bid on the auction with the value sent
@@ -93,8 +93,6 @@ contract TaskAuction {
 
 
     }
-    
-    
     
     // Check the ETH balance of the TaskAuction Contract
     function balance() public view returns(uint) {
