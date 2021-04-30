@@ -55,16 +55,32 @@ contract TaskMarket is ERC721Full, Ownable {
         safeTransferFrom(owner(), homeowner, token_id);
     }
 
-    function endAuction(uint token_id) public taskRegistered(token_id) {
+    // function endAuction(uint token_id) public taskRegistered(token_id) {
+    //     TaskAuction auction = auctions[token_id];
+    //     auction.auctionEnd(msg.sender);
+    //     safeTransferFrom(msg.sender, auction.lowestBidder(), token_id);
+    // }
+    
+    function lockAuction(uint token_id) public taskRegistered(token_id) {
         TaskAuction auction = auctions[token_id];
-        auction.auctionEnd(msg.sender);
+        auction.auctionLock(msg.sender);
+    }    
+
+    function auctionLocked(uint token_id) public view returns(bool) {
+        TaskAuction auction = auctions[token_id];
+        return auction.locked();
+    }
+    
+    function confirmFinishOfTask(uint token_id) public taskRegistered(token_id) {
+        TaskAuction auction = auctions[token_id];
+        auction.confirmFinishOfTask(msg.sender);
         safeTransferFrom(msg.sender, auction.lowestBidder(), token_id);
     }
-
-    function auctionEnded(uint token_id) public view returns(bool) {
+    
+    function taskFinished(uint token_id) public view returns(bool) {
         TaskAuction auction = auctions[token_id];
-        return auction.ended();
-    }
+        return auction.finished();
+    }    
 
     function lowestBid(uint token_id) public view taskRegistered(token_id) returns(uint) {
         TaskAuction auction = auctions[token_id];
