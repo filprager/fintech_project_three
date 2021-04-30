@@ -44,7 +44,6 @@ contract TaskMarket is ERC721Full, Ownable {
 
      function createAuction(uint token_id, address payable homeowner) public payable {
         auctions[token_id] = new TaskAuction(homeowner);
-
     }
 
     function registerTask(string memory uri, address payable homeowner) public payable {
@@ -78,6 +77,7 @@ contract TaskMarket is ERC721Full, Ownable {
     }
 
     function bid(uint token_id, uint amount) public taskRegistered(token_id) {
+        require(token.balanceOf(msg.sender) >= amount, "Your Air Token balance needs to be greater than your bid");
         TaskAuction auction = auctions[token_id];
         auction.bid(msg.sender, amount);
     }
