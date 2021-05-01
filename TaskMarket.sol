@@ -3,7 +3,7 @@ pragma solidity ^0.5.0;
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v2.5.0/contracts/token/ERC721/ERC721Full.sol";
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v2.5.0/contracts/ownership/Ownable.sol";
 import "./TaskAuction.sol";
-import "./AirToken.sol";
+import "./AirTokenMintable.sol";
 import "./AirTokenSale.sol";
 
 contract TaskMarket is ERC721Full, Ownable {
@@ -42,7 +42,7 @@ contract TaskMarket is ERC721Full, Ownable {
     function createAuction(uint token_id, address payable homeowner) public payable {
         auctions[token_id] = new TaskAuction(homeowner, address(token));
     
-    }
+
 
     function registerTask(string memory uri, address payable homeowner) public payable {
         token_ids.increment();
@@ -54,15 +54,17 @@ contract TaskMarket is ERC721Full, Ownable {
     }
 
     function endAuction(uint token_id) public taskRegistered(token_id) {
-        TaskAuction auction = auctions[token_id];
-        auction.auctionEnd(msg.sender);
-        safeTransferFrom(msg.sender, auction.lowestBidder(), token_id);
-    }
-
+         TaskAuction auction = auctions[token_id];
+         auction.auctionEnd(msg.sender);
+         safeTransferFrom(msg.sender, auction.lowestBidder(), token_id);
+     }
+    
+  
     function auctionEnded(uint token_id) public view taskRegistered(token_id)  returns(bool) {
         TaskAuction auction = auctions[token_id];
         return auction.ended();
     }
+
     
     function finishoftask(uint token_id) public taskRegistered(token_id) {
         
@@ -74,7 +76,6 @@ contract TaskMarket is ERC721Full, Ownable {
         TaskAuction auction = auctions[token_id];
         auction.unFinishofTask(msg.sender);}
     
-
     function lowestBid(uint token_id) public view taskRegistered(token_id) returns(uint) {
         TaskAuction auction = auctions[token_id];
         return auction.lowestBid();
@@ -100,10 +101,10 @@ contract TaskMarket is ERC721Full, Ownable {
     // Set up the max price by bidding with the deposit amount
 
     function deposit(uint token_id) public payable taskRegistered(token_id) {
+ 
         require(msg.value > 0, "Your deposit needs to be greater than 0");
         TaskAuction auction = auctions[token_id];
         auction.deposit.value(msg.value)(msg.sender);
-       
     }
     
     function pendingBids(uint token_id, address sender) public view taskRegistered(token_id) returns(uint) {
@@ -111,27 +112,19 @@ contract TaskMarket is ERC721Full, Ownable {
         return auction.pendingBid(sender);
     }
 
-    
-   
-    // function set_max_price_ETH(uint token_id) public payable {
-    //     require(msg.value > 0, "Your max price needs to be greater than 0");
-    //     TaskAuction auction = auctions[token_id];
-    //     auction.deposit.value(msg.value)();
-    //     bid(token_id, msg.value);
-    // }
-    
     // Buy Air Tokens by ETH
     function recharge() public payable {
         uint amount = msg.value.mul(90).div(100);
         air_sale.buyTokens.value(amount)(msg.sender);
     }
     
-   
     // Check the balance of Air Token 
     function balance_air() public view returns(uint) {
         return token.balanceOf(msg.sender);
     }
 }
+
+
 
 
 

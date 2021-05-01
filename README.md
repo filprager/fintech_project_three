@@ -5,7 +5,9 @@ Airtasker on Chain is a dApp that connects homeowners with builders together by 
 
 
 ## How to Run the dApp
-Click [here](frontend/index.html) to launch the Airtasker on Chain application.
+1. Install MetaMask
+2. Switch to Ropster Test Network on MetaMask
+3. Click [here](frontend/index.html) to launch the application.
 
 
 ## Examples
@@ -14,7 +16,7 @@ Homepage
 
 
 ## Technology Stack
-Solidity, Pinnata, Remix, Ganache, HTML, JavaScript
+Solidity, Pinnata, Remix, Ganache, MetaMask, HTML, JavaScript
 
 
 ## Explanation of Each File and Folder 

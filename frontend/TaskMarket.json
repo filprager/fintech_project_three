@@ -104,10 +104,30 @@
 				"type": "uint256"
 			}
 		],
-		"name": "createAuction",
+		"name": "confirmFinishOfTask",
 		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "token_id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address payable",
+				"name": "homeowner",
+				"type": "address"
+			}
+		],
+		"name": "createAuction",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
 		"type": "function"
 	},
 	{
@@ -134,7 +154,7 @@
 				"type": "uint256"
 			}
 		],
-		"name": "endAuction",
+		"name": "lockAuction",
 		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
@@ -161,11 +181,25 @@
 	},
 	{
 		"constant": false,
+		"inputs": [],
+		"name": "recharge",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": false,
 		"inputs": [
 			{
 				"internalType": "string",
 				"name": "uri",
 				"type": "string"
+			},
+			{
+				"internalType": "address payable",
+				"name": "homeowner",
+				"type": "address"
 			}
 		],
 		"name": "registerTask",
@@ -325,6 +359,21 @@
 	},
 	{
 		"constant": true,
+		"inputs": [],
+		"name": "air_sale_address",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
 		"inputs": [
 			{
 				"internalType": "uint256",
@@ -332,7 +381,7 @@
 				"type": "uint256"
 			}
 		],
-		"name": "auctionEnded",
+		"name": "auctionLocked",
 		"outputs": [
 			{
 				"internalType": "bool",
@@ -359,6 +408,21 @@
 				"internalType": "contract TaskAuction",
 				"name": "",
 				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "balance_air",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
 			}
 		],
 		"payable": false,
@@ -542,14 +606,9 @@
 				"internalType": "uint256",
 				"name": "token_id",
 				"type": "uint256"
-			},
-			{
-				"internalType": "address",
-				"name": "sender",
-				"type": "address"
 			}
 		],
-		"name": "pendingReturn",
+		"name": "pendingDeposit",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -591,6 +650,42 @@
 				"internalType": "string",
 				"name": "",
 				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "token_id",
+				"type": "uint256"
+			}
+		],
+		"name": "taskFinished",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "token_address",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
 			}
 		],
 		"payable": false,

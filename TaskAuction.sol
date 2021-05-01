@@ -1,7 +1,7 @@
 pragma solidity >=0.4.22 <0.6.0;
 
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v2.5.0/contracts/math/SafeMath.sol";
-import "./AirToken.sol";
+import "./AirTokenMintable.sol";
 
 contract TaskAuction {
     using SafeMath for uint;
@@ -27,7 +27,7 @@ contract TaskAuction {
     event LowestBidDecreased(address bidder, uint amount);
     event AuctionEnded(address winner, uint amount);
     event TaskFinished(address winner, bool satisfied);
-    
+   
     /// Create a simple auction with `_biddingTime`
     /// seconds bidding time on behalf of the
     /// beneficiary address `_beneficiary`.
@@ -62,8 +62,6 @@ contract TaskAuction {
         require(sender != homeowner, "You cannot bid on your own task!");
 
         require(!ended, "auctionEnd has already been called.");
-        
-        
         
         if (lowestBid != 0) {
             // Sending back the money by simply using
@@ -102,24 +100,14 @@ contract TaskAuction {
     /// End the auction and send the lowest bid
     /// to the beneficiary.
     function auctionEnd(address payable sender) public payable {
-        // It is a good guideline to structure functions that interact
-        // with other contracts (i.e. they call functions or send Ether)
-        // into three phases:
-        // 1. checking conditions
-        // 2. performing actions (potentially changing conditions)
-        // 3. interacting with other contracts
-        // If these phases are mixed up, the other contract could call
-        // back into the current contract and modify the state or cause
-        // effects (ether payout) to be performed multiple times.
-        // If functions called internally include interaction with external
-        // contracts, they also have to be considered interaction with
-        // external contracts.
 
-        // 1. Conditions
-        require(!ended, "auctionEnd has already been called.");
-        require(sender == homeowner, "You are not the auction beneficiary");
+    // 1. Conditions
+    require(!ended, "auctionEnd has already been called.");
+    require(sender == homeowner, "You are not the auction beneficiary");
 
-        // 2. Effects
+
+    // 2. Effects
+
         ended = true;
         emit AuctionEnded(lowestBidder, lowestBid);
 
@@ -155,6 +143,8 @@ contract TaskAuction {
         token.transfer(sender, lowestBid);
         sender.transfer(address(this).balance);
         }
+    
+    
     
     
     // Check the ETH balance of the TaskAuction Contract
