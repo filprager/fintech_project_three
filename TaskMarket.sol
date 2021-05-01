@@ -16,7 +16,7 @@ contract TaskMarket is ERC721Full, Ownable {
         
 
         // create the ArcadeTokenSale and tell it about the token
-        air_sale = new AirTokenSale(1, msg.sender, token);
+        air_sale = new AirTokenSale(1000000000, msg.sender, token);
         
 
         // make the ArcadeTokenSale contract a minter, then have the ArcadeTokenSaleDeployer renounce its minter role
