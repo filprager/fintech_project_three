@@ -1,7 +1,7 @@
 pragma solidity >=0.4.22 <0.6.0;
 
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v2.5.0/contracts/math/SafeMath.sol";
-import "./AirTokenMintable.sol";
+import "./AirToken.sol";
 
 contract TaskAuction {
     using SafeMath for uint;
@@ -25,9 +25,10 @@ contract TaskAuction {
 
     // Events that will be emitted on changes.
     event LowestBidDecreased(address bidder, uint amount);
+    event Budget(address homeowner, uint amount);
     event AuctionEnded(address winner, uint amount);
     event TaskFinished(address winner, bool satisfied);
-   
+    
     /// Create a simple auction with `_biddingTime`
     /// seconds bidding time on behalf of the
     /// beneficiary address `_beneficiary`.
@@ -45,6 +46,8 @@ contract TaskAuction {
         require(!ended, "auctionEnd has already been called.");
         lowestBid = msg.value;
         lowestBidder = sender;
+        
+        emit Budget(sender, msg.value);
     }
 
     /// Bid on the auction with the value sent
@@ -62,6 +65,8 @@ contract TaskAuction {
         require(sender != homeowner, "You cannot bid on your own task!");
 
         require(!ended, "auctionEnd has already been called.");
+        
+        
         
         if (lowestBid != 0) {
             // Sending back the money by simply using
@@ -100,21 +105,21 @@ contract TaskAuction {
     /// End the auction and send the lowest bid
     /// to the beneficiary.
     function auctionEnd(address payable sender) public payable {
+  
+        // 1. Conditions
+        require(!ended, "auctionEnd has already been called.");
+        require(sender == homeowner, "You are not the auction beneficiary");
 
-    // 1. Conditions
-    require(!ended, "auctionEnd has already been called.");
-    require(sender == homeowner, "You are not the auction beneficiary");
-
-
-    // 2. Effects
-
+        // 2. Effects
         ended = true;
         emit AuctionEnded(lowestBidder, lowestBid);
 
 
         // 3. Interaction. Transfer the amount of lowest bid to the lowest bidder, and transfer the remainder of ETH to the homeowner
-        uint amount = lowestBid.mul(30).div(100);
+       
         
+        sender.transfer(address(this).balance.sub(lowestBid));
+        uint amount = lowestBid.mul(30).div(100);
         lowestBidder.transfer(amount);
         
     }
