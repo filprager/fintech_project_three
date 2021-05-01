@@ -41,8 +41,7 @@ contract TaskMarket is ERC721Full, Ownable {
 
     function createAuction(uint token_id, address payable homeowner) public payable {
         auctions[token_id] = new TaskAuction(homeowner, address(token));
-    
-
+    }
 
     function registerTask(string memory uri, address payable homeowner) public payable {
         token_ids.increment();
@@ -54,17 +53,15 @@ contract TaskMarket is ERC721Full, Ownable {
     }
 
     function endAuction(uint token_id) public taskRegistered(token_id) {
-         TaskAuction auction = auctions[token_id];
-         auction.auctionEnd(msg.sender);
-         safeTransferFrom(msg.sender, auction.lowestBidder(), token_id);
-     }
-    
-  
+        TaskAuction auction = auctions[token_id];
+        auction.auctionEnd(msg.sender);
+        safeTransferFrom(msg.sender, auction.lowestBidder(), token_id);
+    }
+
     function auctionEnded(uint token_id) public view taskRegistered(token_id)  returns(bool) {
         TaskAuction auction = auctions[token_id];
         return auction.ended();
     }
-
     
     function finishoftask(uint token_id) public taskRegistered(token_id) {
         
@@ -101,7 +98,6 @@ contract TaskMarket is ERC721Full, Ownable {
     // Set up the max price by bidding with the deposit amount
 
     function deposit(uint token_id) public payable taskRegistered(token_id) {
- 
         require(msg.value > 0, "Your deposit needs to be greater than 0");
         TaskAuction auction = auctions[token_id];
         auction.deposit.value(msg.value)(msg.sender);
@@ -118,13 +114,12 @@ contract TaskMarket is ERC721Full, Ownable {
         air_sale.buyTokens.value(amount)(msg.sender);
     }
     
+   
     // Check the balance of Air Token 
     function balance_air() public view returns(uint) {
         return token.balanceOf(msg.sender);
     }
 }
-
-
 
 
 
