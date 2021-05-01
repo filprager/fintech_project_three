@@ -145,8 +145,6 @@ contract TaskAuction {
         }
     
     
-    
-    
     // Check the ETH balance of the TaskAuction Contract
     function balance() public view returns(uint) {
         return address(this).balance;
