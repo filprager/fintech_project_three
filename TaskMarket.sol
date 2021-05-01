@@ -7,33 +7,30 @@ import "./AirTokenMintable.sol";
 import "./AirTokenSale.sol";
 
 contract TaskMarket is ERC721Full, Ownable {
-    address public air_sale_address;
-    address public token_address;
-    AirToken token;
+    AirToken public token;
     AirTokenSale air_sale;
-
+    
     constructor() ERC721Full("TaskMarket", "TASK") public {
-        // Deploy Air Token
-        
-        // create the AirToken and keep its address handy
+           // create the ArcadeToken and keep its address handy
         token = new AirToken('Air Token', 'AIRT', 0);
-        token_address = address(token);
+        
 
-        // create the AirTokenSale and tell it about the token
-        air_sale = new AirTokenSale(1, msg.sender, token);
-        air_sale_address = address(air_sale);
+        // create the ArcadeTokenSale and tell it about the token
+        air_sale = new AirTokenSale(1000000000, msg.sender, token);
+        
 
-        // make the AirTokenSale contract a minter, then have the AirTokenSaleDeployer renounce its minter role
-        token.addMinter(air_sale_address);
+        // make the ArcadeTokenSale contract a minter, then have the ArcadeTokenSaleDeployer renounce its minter role
+        token.addMinter(address(air_sale));
         token.renounceMinter();
     }
 
     using Counters for Counters.Counter;
 
     Counters.Counter token_ids;
-
+  
     address payable foundation_address = msg.sender;
 
+    address payable homeowner;
 
     mapping(uint => TaskAuction) public auctions;
 
@@ -42,9 +39,10 @@ contract TaskMarket is ERC721Full, Ownable {
         _;
     }
 
-     function createAuction(uint token_id, address payable homeowner) public payable {
-        auctions[token_id] = new TaskAuction(homeowner);
-    }
+    function createAuction(uint token_id, address payable homeowner) public payable {
+        auctions[token_id] = new TaskAuction(homeowner, address(token));
+    
+
 
     function registerTask(string memory uri, address payable homeowner) public payable {
         token_ids.increment();
@@ -55,33 +53,29 @@ contract TaskMarket is ERC721Full, Ownable {
         safeTransferFrom(owner(), homeowner, token_id);
     }
 
-    // function endAuction(uint token_id) public taskRegistered(token_id) {
-    //     TaskAuction auction = auctions[token_id];
-    //     auction.auctionEnd(msg.sender);
-    //     safeTransferFrom(msg.sender, auction.lowestBidder(), token_id);
-    // }
+    function endAuction(uint token_id) public taskRegistered(token_id) {
+         TaskAuction auction = auctions[token_id];
+         auction.auctionEnd(msg.sender);
+         safeTransferFrom(msg.sender, auction.lowestBidder(), token_id);
+     }
     
-    function lockAuction(uint token_id) public taskRegistered(token_id) {
+  
+    function auctionEnded(uint token_id) public view taskRegistered(token_id)  returns(bool) {
         TaskAuction auction = auctions[token_id];
-        auction.auctionLock(msg.sender);
-    }    
-
-    function auctionLocked(uint token_id) public view returns(bool) {
-        TaskAuction auction = auctions[token_id];
-        return auction.locked();
+        return auction.ended();
     }
-    
-    function confirmFinishOfTask(uint token_id) public taskRegistered(token_id) {
-        TaskAuction auction = auctions[token_id];
-        auction.confirmFinishOfTask(msg.sender);
-        safeTransferFrom(msg.sender, auction.lowestBidder(), token_id);
-    }
-    
-    function taskFinished(uint token_id) public view returns(bool) {
-        TaskAuction auction = auctions[token_id];
-        return auction.finished();
-    }    
 
+    
+    function finishoftask(uint token_id) public taskRegistered(token_id) {
+        
+        TaskAuction auction = auctions[token_id];
+        auction.FinishofTask(msg.sender);}
+   
+    function unfinishoftask(uint token_id) public taskRegistered(token_id) {
+        
+        TaskAuction auction = auctions[token_id];
+        auction.unFinishofTask(msg.sender);}
+    
     function lowestBid(uint token_id) public view taskRegistered(token_id) returns(uint) {
         TaskAuction auction = auctions[token_id];
         return auction.lowestBid();
@@ -93,22 +87,35 @@ contract TaskMarket is ERC721Full, Ownable {
     }
 
     function bid(uint token_id, uint amount) public taskRegistered(token_id) {
-        require(token.balanceOf(msg.sender) >= amount, "Your Air Token balance needs to be greater than your bid");
+        
         TaskAuction auction = auctions[token_id];
+        token.transferFrom(msg.sender, address(auction), amount);
         auction.bid(msg.sender, amount);
     }
     
-    // Pay ETH to the TaskAuction contract as a deposit that is equal to the maximum price the homeowner is willing to pay, and
-    // set up the max price by bidding with the deposit amount
-    function deposit(uint token_id) public payable{
+    function withdraw(uint token_id) public payable taskRegistered(token_id) {
+        TaskAuction auction = auctions[token_id];
+        auction.withdraw(msg.sender);
+    }
+    // Pay ETH to the TaskAuction contract as a deposit that is equal to the maximum price the homeowner is willing to pay
+    // Set up the max price by bidding with the deposit amount
+
+    function deposit(uint token_id) public payable taskRegistered(token_id) {
+ 
         require(msg.value > 0, "Your deposit needs to be greater than 0");
         TaskAuction auction = auctions[token_id];
         auction.deposit.value(msg.value)(msg.sender);
     }
     
+    function pendingBids(uint token_id, address sender) public view taskRegistered(token_id) returns(uint) {
+        TaskAuction auction = auctions[token_id];
+        return auction.pendingBid(sender);
+    }
+
     // Buy Air Tokens by ETH
     function recharge() public payable {
-        air_sale.buyTokens.value(msg.value)(msg.sender);
+        uint amount = msg.value.mul(90).div(100);
+        air_sale.buyTokens.value(amount)(msg.sender);
     }
     
     // Check the balance of Air Token 
