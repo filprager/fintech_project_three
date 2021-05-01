@@ -16,7 +16,7 @@ contract TaskMarket is ERC721Full, Ownable {
         
 
         // create the ArcadeTokenSale and tell it about the token
-        air_sale = new AirTokenSale(1000000000, msg.sender, token);
+        air_sale = new AirTokenSale(1, msg.sender, token);
         
 
         // make the ArcadeTokenSale contract a minter, then have the ArcadeTokenSaleDeployer renounce its minter role
@@ -29,8 +29,6 @@ contract TaskMarket is ERC721Full, Ownable {
     Counters.Counter token_ids;
   
     address payable foundation_address = msg.sender;
-
-    address payable homeowner;
 
     mapping(uint => TaskAuction) public auctions;
 
@@ -52,6 +50,7 @@ contract TaskMarket is ERC721Full, Ownable {
         safeTransferFrom(owner(), homeowner, token_id);
     }
 
+    // End the auction and transfer 30% of the lowest bid amound to the lowest bidder as a commencement payment
     function endAuction(uint token_id) public taskRegistered(token_id) {
         TaskAuction auction = auctions[token_id];
         auction.auctionEnd(msg.sender);
@@ -110,8 +109,8 @@ contract TaskMarket is ERC721Full, Ownable {
 
     // Buy Air Tokens by ETH
     function recharge() public payable {
-        uint amount = msg.value.mul(90).div(100);
-        air_sale.buyTokens.value(amount)(msg.sender);
+        // uint amount = msg.value.mul(90).div(100);
+        air_sale.buyTokens.value(msg.value)(msg.sender);
     }
     
    
