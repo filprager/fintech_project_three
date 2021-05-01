@@ -1,5 +1,5 @@
 // @TODO: Update this address to match your deployed TaskMarket contract!
-const contractAddress = "0x9361Fb8dADB381CC016aE12C841E598dC6e6e910";
+const contractAddress = "0xBFA4fb4dFfb181C4F7DeC47F2DE8199ffa3C2b67";
 
 const dApp = {
   ethEnabled: function() {
@@ -25,11 +25,12 @@ const dApp = {
         console.log('token uri', token_uri)
         const token_json = await fetchMetadata(token_uri);
         console.log('token json', token_json)
+
         this.tokens.push({
           tokenId: i,
           lowestBid: Number(await this.marsContract.methods.lowestBid(i).call()),
-          auctionEnded: Boolean(await this.marsContract.methods.auctionEnded(i).call()),
-          pendingReturn: Number(await this.marsContract.methods.pendingReturn(i, this.accounts[0]).call()),
+          auctionLocked: Boolean(await this.marsContract.methods.auctionLocked(i).call()),
+          // pendingReturn: Number(await this.marsContract.methods.pendingReturn(i, this.accounts[0]).call()),
           auction: new window.web3.eth.Contract(
             this.auctionJson,
             await this.marsContract.methods.auctions(i).call(),
@@ -63,7 +64,7 @@ const dApp = {
         let bid = `<a id="${token.tokenId}" href="#" onclick="dApp.bid(event);">Bid</a>`;
         let owner = `Owner: ${token.owner}`;
         let withdraw = `<a id="${token.tokenId}" href="#" onclick="dApp.withdraw(event)">Withdraw</a>`
-        let pendingWithdraw = `Balance: ${token.pendingReturn} wei`;
+        let pendingWithdraw = `Balance: ${token.pendingDeposit} wei`;
           $("#dapp-tokens").append(
             `<div class="col m6">
               <div class="card">
@@ -72,11 +73,11 @@ const dApp = {
                   <span id="dapp-name" class="card-title">${token.name}</span>
                 </div>
                 <div class="card-action">
-                  <input type="number" min="${token.lowestBid - 1}" name="dapp-wei" value="${token.lowestBid - 1}" ${token.auctionEnded ? 'disabled' : ''}>
-                  ${token.auctionEnded ? owner : bid}
-                  ${token.pendingReturn > 0 ? withdraw : ''}
-                  ${token.pendingReturn > 0 ? pendingWithdraw : ''}
-                  ${this.isAdmin && !token.auctionEnded ? endAuction : ''}
+                  <input type="number" min="${token.lowestBid}" name="dapp-wei" value="${token.lowestBid}" ${token.auctionLocked ? 'disabled' : ''}>
+                  ${token.auctionLocked ? owner : bid}
+                  ${token.pendingDeposit > 0 ? withdraw : ''}
+                  ${token.pendingDeposit > 0 ? pendingWithdraw : ''}
+                  ${this.isAdmin && !token.auctionLocked ? endAuction : ''}
                 </div>
               </div>
             </div>`
@@ -111,6 +112,7 @@ const dApp = {
   },
   registerTask: async function() {
     const name = $("#dapp-register-name").val();
+    const homeowner = $("#dapp-homeowner").val();
     const image = document.querySelector('input[type="file"]');
 
     const pinata_api_key = $("#dapp-pinata-api-key").val();
@@ -165,7 +167,7 @@ const dApp = {
       M.toast({ html: `Success. Reference URI located at ${reference_uri}.` });
       M.toast({ html: "Sending to blockchain..." });
 
-      await this.marsContract.methods.registerTask(reference_uri).send({from: this.accounts[0]}, async () => {
+      await this.marsContract.methods.registerTask(reference_uri, homeowner).send({from: this.accounts[0]}, async () => {
         $("#dapp-register-name").val("");
         $("#dapp-register-image").val("");
         await this.updateUI();
