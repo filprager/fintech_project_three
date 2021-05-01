@@ -5,6 +5,11 @@
 				"internalType": "address payable",
 				"name": "_homeowner",
 				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "tokenAddress",
+				"type": "address"
 			}
 		],
 		"payable": false,
@@ -27,7 +32,26 @@
 				"type": "uint256"
 			}
 		],
-		"name": "AuctionLocked",
+		"name": "AuctionEnded",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "homeowner",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "Budget",
 		"type": "event"
 	},
 	{
@@ -57,6 +81,12 @@
 				"internalType": "address",
 				"name": "winner",
 				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "bool",
+				"name": "satisfied",
+				"type": "bool"
 			}
 		],
 		"name": "TaskFinished",
@@ -71,7 +101,22 @@
 				"type": "address"
 			}
 		],
-		"name": "auctionLock",
+		"name": "FinishofTask",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"internalType": "address payable",
+				"name": "sender",
+				"type": "address"
+			}
+		],
+		"name": "auctionEnd",
 		"outputs": [],
 		"payable": true,
 		"stateMutability": "payable",
@@ -121,21 +166,6 @@
 				"type": "address"
 			}
 		],
-		"name": "confirmFinishOfTask",
-		"outputs": [],
-		"payable": true,
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"internalType": "address payable",
-				"name": "sender",
-				"type": "address"
-			}
-		],
 		"name": "deposit",
 		"outputs": [],
 		"payable": true,
@@ -145,7 +175,7 @@
 	{
 		"constant": true,
 		"inputs": [],
-		"name": "finished",
+		"name": "ended",
 		"outputs": [
 			{
 				"internalType": "bool",
@@ -166,21 +196,6 @@
 				"internalType": "address payable",
 				"name": "",
 				"type": "address"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "locked",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
 			}
 		],
 		"payable": false,
@@ -215,6 +230,72 @@
 		],
 		"payable": false,
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "sender",
+				"type": "address"
+			}
+		],
+		"name": "pendingBid",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "satisfied",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"internalType": "address payable",
+				"name": "sender",
+				"type": "address"
+			}
+		],
+		"name": "unFinishofTask",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"internalType": "address payable",
+				"name": "sender",
+				"type": "address"
+			}
+		],
+		"name": "withdraw",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
 		"type": "function"
 	}
 ]
