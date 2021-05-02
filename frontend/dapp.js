@@ -1,5 +1,7 @@
 // @TODO: Update this address to match your deployed TaskMarket contract!
+
 const contractAddress = "0xB6A66CaB41c2F1d4F6F02AB412260f5c9e29c7DC";
+
 
 const dApp = {
   ethEnabled: function() {
