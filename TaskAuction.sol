@@ -124,6 +124,21 @@ contract TaskAuction {
         
     }
     
+    function auctionStop(address payable sender) public payable {
+  
+        // 1. Conditions
+        require(!ended, "auctionEnd has already been called.");
+        require(sender == homeowner, "You are not the auction beneficiary");
+
+        // 2. Effects
+        ended = true;
+
+        // 3. Interaction. 
+        
+        sender.transfer(address(this).balance);
+        
+    }
+    
     // Homeowner confirms if he is satisfied with the task 
     // after auction ended. 
     function FinishofTask( address payable sender) public payable{
