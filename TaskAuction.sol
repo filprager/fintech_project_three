@@ -1,7 +1,7 @@
 pragma solidity >=0.4.22 <0.6.0;
 
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v2.5.0/contracts/math/SafeMath.sol";
-import "./AirToken.sol";
+import "./AirTokenMintable.sol";
 
 contract TaskAuction {
     using SafeMath for uint;
@@ -115,9 +115,9 @@ contract TaskAuction {
         emit AuctionEnded(lowestBidder, lowestBid);
 
 
-        // 3. Interaction. Transfer the amount of lowest bid to the lowest bidder, and transfer the remainder of ETH to the homeowner
-       
-        
+        // 3. Interaction. 
+        // Transfer the delta back to Homeowner
+        // Transfer 30% of the lowest bid amount to the lowest bidder as a commencement payment
         sender.transfer(address(this).balance.sub(lowestBid));
         uint amount = lowestBid.mul(30).div(100);
         lowestBidder.transfer(amount);
@@ -133,7 +133,10 @@ contract TaskAuction {
         satisfied = true;
         emit TaskFinished(lowestBidder, true);
         
-        // 3. Interaction. Transfer the amount of lowest bid to the lowest bidder, and transfer the remainder of ETH to the homeowner
+        // 3. Interaction
+        // Return Air Token back to the lowest bidder 
+        // Transfer the remaining 70% of the lowest bid amount (ETH) to the lowest bidder
+        // Return the remainder of deposit (ETH) back to the homeowner
         token.transfer(lowestBidder, lowestBid);
         lowestBidder.transfer(lowestBid.mul(70).div(100));
         sender.transfer(address(this).balance);
@@ -146,9 +149,9 @@ contract TaskAuction {
         satisfied = false;
         emit TaskFinished(lowestBidder, false);
         
-        // 3. Interaction. Transfer both stake and the remainder of ETH to the homeowner;
-        token.transfer(sender, lowestBid);
-        sender.transfer(address(this).balance);
+        // 3. Interaction. Lock the Air Token and ETH;
+        // token.transfer(sender, lowestBid);
+        // sender.transfer(address(this).balance);
         }
     
     
