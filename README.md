@@ -1,8 +1,7 @@
 # AirChain DApp - AirTasker on Blockchain
-AirChain is a dApp that connects homeowners with builders together by auctioning handy tasks. Homeowners can post handy tasks on the dApp, then builders can bid for the lowest price that they are willing to do the task for. Homeowners pay builders by Etherium, and builders bid by Air Token, which is a token made specifically for our bidding system.
-
 ![profile](image/profile.jpg)
 
+AirChain is a dApp that connects homeowners with builders together by auctioning handy tasks. Homeowners can post handy tasks on the dApp, then builders can bid for the lowest price that they are willing to do the task for. Homeowners pay builders by Etherium, and builders bid by Air Token, which is a token made specifically for our bidding system.
 
 ## How to Run the DApp
 Ropster Test Network:
