@@ -30,8 +30,6 @@ contract TaskMarket is ERC721Full, Ownable {
   
     address payable foundation_address = msg.sender;
 
-    address payable homeowner;
-
     mapping(uint => TaskAuction) public auctions;
 
     modifier taskRegistered(uint token_id) {
@@ -52,6 +50,7 @@ contract TaskMarket is ERC721Full, Ownable {
         safeTransferFrom(owner(), homeowner, token_id);
     }
 
+    // End the auction and transfer 30% of the lowest bid amound to the lowest bidder as a commencement payment
     function endAuction(uint token_id) public taskRegistered(token_id) {
         TaskAuction auction = auctions[token_id];
         auction.auctionEnd(msg.sender);
@@ -110,8 +109,8 @@ contract TaskMarket is ERC721Full, Ownable {
 
     // Buy Air Tokens by ETH
     function recharge() public payable {
-        uint amount = msg.value.mul(90).div(100);
-        air_sale.buyTokens.value(amount)(msg.sender);
+        // uint amount = msg.value.mul(90).div(100);
+        air_sale.buyTokens.value(msg.value)(msg.sender);
     }
     
    
