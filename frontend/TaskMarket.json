@@ -102,21 +102,6 @@
 				"internalType": "uint256",
 				"name": "token_id",
 				"type": "uint256"
-			}
-		],
-		"name": "confirmFinishOfTask",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "token_id",
-				"type": "uint256"
 			},
 			{
 				"internalType": "address payable",
@@ -154,7 +139,22 @@
 				"type": "uint256"
 			}
 		],
-		"name": "lockAuction",
+		"name": "endAuction",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "token_id",
+				"type": "uint256"
+			}
+		],
+		"name": "finishoftask",
 		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
@@ -358,18 +358,33 @@
 		"type": "function"
 	},
 	{
-		"constant": true,
-		"inputs": [],
-		"name": "air_sale_address",
-		"outputs": [
+		"constant": false,
+		"inputs": [
 			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
+				"internalType": "uint256",
+				"name": "token_id",
+				"type": "uint256"
 			}
 		],
+		"name": "unfinishoftask",
+		"outputs": [],
 		"payable": false,
-		"stateMutability": "view",
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "token_id",
+				"type": "uint256"
+			}
+		],
+		"name": "withdraw",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
 		"type": "function"
 	},
 	{
@@ -381,7 +396,7 @@
 				"type": "uint256"
 			}
 		],
-		"name": "auctionLocked",
+		"name": "auctionEnded",
 		"outputs": [
 			{
 				"internalType": "bool",
@@ -606,6 +621,32 @@
 				"internalType": "uint256",
 				"name": "token_id",
 				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "sender",
+				"type": "address"
+			}
+		],
+		"name": "pendingBids",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "token_id",
+				"type": "uint256"
 			}
 		],
 		"name": "pendingDeposit",
@@ -658,32 +699,11 @@
 	},
 	{
 		"constant": true,
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "token_id",
-				"type": "uint256"
-			}
-		],
-		"name": "taskFinished",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
 		"inputs": [],
-		"name": "token_address",
+		"name": "token",
 		"outputs": [
 			{
-				"internalType": "address",
+				"internalType": "contract AirToken",
 				"name": "",
 				"type": "address"
 			}

@@ -1,5 +1,5 @@
 // @TODO: Update this address to match your deployed TaskMarket contract!
-const contractAddress = "0xBFA4fb4dFfb181C4F7DeC47F2DE8199ffa3C2b67";
+const contractAddress = "0xAEF659DCdcD40036dd5390cdB3433E4142D6e845";
 
 const dApp = {
   ethEnabled: function() {
@@ -29,7 +29,7 @@ const dApp = {
         this.tokens.push({
           tokenId: i,
           lowestBid: Number(await this.marsContract.methods.lowestBid(i).call()),
-          auctionLocked: Boolean(await this.marsContract.methods.auctionLocked(i).call()),
+          auctionEnded: Boolean(await this.marsContract.methods.auctionEnded(i).call()),
           // pendingReturn: Number(await this.marsContract.methods.pendingReturn(i, this.accounts[0]).call()),
           auction: new window.web3.eth.Contract(
             this.auctionJson,
@@ -73,11 +73,11 @@ const dApp = {
                   <span id="dapp-name" class="card-title">${token.name}</span>
                 </div>
                 <div class="card-action">
-                  <input type="number" min="${token.lowestBid}" name="dapp-wei" value="${token.lowestBid}" ${token.auctionLocked ? 'disabled' : ''}>
-                  ${token.auctionLocked ? owner : bid}
+                  <input type="number" min="${token.lowestBid}" name="dapp-wei" value="${token.lowestBid}" ${token.auctionEnded ? 'disabled' : ''}>
+                  ${token.auctionEnded ? owner : bid}
                   ${token.pendingDeposit > 0 ? withdraw : ''}
                   ${token.pendingDeposit > 0 ? pendingWithdraw : ''}
-                  ${this.isAdmin && !token.auctionLocked ? endAuction : ''}
+                  ${this.isAdmin && !token.auctionEnded ? endAuction : ''}
                 </div>
               </div>
             </div>`
