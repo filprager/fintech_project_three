@@ -6,16 +6,17 @@ AirChain is a dApp that connects homeowners with builders together by auctioning
 ## How to Run the DApp
 Ropster Test Network:
 1. Switch to Ropster Test Network on MetaMask
-2. Click [here](frontend/index.html) to launch the application.
+2. Click [here](https://filprager.github.io/fintech_project_three/frontend/index.html#) to launch the application.
 
 Local:  
-1. Launch your local Etherium blockchain network on Ganache
+1. Set up your local Etherium blockchain network on Ganache and make sure to increase the **gas limit**
 2. Switch to Localhost on MetaMask
-3. Deploy the `TaskMarket.sol` contract on Remix and copy it address
-4. Replace the contract address in line 2 in `dapp.js` by the deployed `TaskMarket.sol` contract address
-5. Open Terminal/Git Bash and `cd` into the `frontend` folder of this dApp
-6. Run the following command `python -m http.server 8000`
-7. Open your browser and visit http://0.0.0.0:8000
+3. Tick the **Enable optimization** checkbox  
+4. Deploy the `TaskMarket.sol` contract on Remix and copy it address
+5. Replace the contract address in line 2 in `dapp.js` by the deployed `TaskMarket.sol` contract address
+6. Open Terminal/Git Bash and `cd` into the `frontend` folder of this dApp
+7. Run the following command `python -m http.server 8000`
+8. Open your browser and visit http://0.0.0.0:8000
 
 
 ## User Interface
