@@ -55,11 +55,25 @@ Solidity, Pinnata, Remix, Ganache, MetaMask, HTML, Javascript
 `TaskMarket.sol`: Contract where users interact with all task auctions
 
 ## Contributors
+<<<<<<< HEAD
 - Fil (@filprager)  
 - Mark (@marksenyang)
 - Paul (@emo-hs)
 - Sammuel (@risksam)
 
+=======
+Fil (@filprager)  
+- LinkedIn: http://linkedin.com/in/filprager
+
+Mark (@marksenyang)
+- LinkedIn: https://www.linkedin.com/in/marksenyang/
+
+Paul (@emo-hs)
+- LinkedIn: http://linkedin.com/in/paul-han-885b15a0
+
+Samuel (@risksam)
+- LinkedIn: https://www.linkedin.com/in/samuel-wytenburg/
+>>>>>>> master
 
 
 
