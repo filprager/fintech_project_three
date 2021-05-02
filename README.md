@@ -4,7 +4,7 @@ AirChain is a dApp that connects homeowners with builders together by auctioning
 ![profile](image/profile.jpg)
 
 
-## How to Run the dApp
+## How to Run the DApp
 Ropster Test Network:
 1. Switch to Ropster Test Network on MetaMask
 2. Click [here](frontend/index.html) to launch the application.
