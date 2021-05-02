@@ -1,5 +1,5 @@
-# Airtasker on Chain - homeowner seeking handy work
-Airtasker on Chain is a dApp that connects homeowners with builders together by auctioning handy tasks. Homeowners can post handy tasks on the dApp, then builders can bid for the lowest price that they are willing to do the task for. Homeowners pay builders by Etherium, and builders bid by Air Token, which is a token made specifically for our bidding system.
+# AirChain DApp - AirTasker on Blockchain
+AirChain is a dApp that connects homeowners with builders together by auctioning handy tasks. Homeowners can post handy tasks on the dApp, then builders can bid for the lowest price that they are willing to do the task for. Homeowners pay builders by Etherium, and builders bid by Air Token, which is a token made specifically for our bidding system.
 
 ![profile](image/profile.jpg)
 
@@ -23,8 +23,13 @@ Local:
 ![ui](image/ui.png)
 
 
-## User Journey Diagram
-![Journey](image/journey.png)
+## Logical Diagram
+![Logical Diagram](image/logical-diagram.png)
+
+
+## Physical Diagram
+![Physical Diagram](image/physical-diagram.png)
+
 
 ## Technology Stack
 Solidity, Pinnata, Remix, Ganache, MetaMask, HTML, Javascript
@@ -33,13 +38,18 @@ Solidity, Pinnata, Remix, Ganache, MetaMask, HTML, Javascript
 ## Explanation of Each File and Folder
 `frontend`: a folder containing all front end files  
 `index.html`: make up the dApp's user interface  
-`dapp.js`: the connection between front end and back end
-`TaskMarket.json`: Store the ABI of the `TaskMarket.sol` contract
+`dapp.js`: the connection between front end and back end  
+`TaskMarket.json`: Store the ABI of the `TaskMarket.sol` contract  
 `TaskAuction.json`: Store the ABI of the `TaskAuction.sol` contract
 
 `image`: a folder containing all image files used in `README.md`
-`ui.png`: screenshot of the dApp's user interface
 
+`presentation`: a folder containing presentation slides
+
+`AirTokenMintable.sol`: Contract for Air Token  
+`AirTokenSale.sol`: Contract for sales of Air Token   
+`TaskAuction.sol`: Contract for the each individual task auction  
+`TaskMarket.sol`: Contract where users interact with all task auctions
 
 ## Contributors
 Fil (@filprager)  
