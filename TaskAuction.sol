@@ -115,7 +115,9 @@ contract TaskAuction {
         emit AuctionEnded(lowestBidder, lowestBid);
 
 
-        // 3. Interaction. Transfer 30% of the lowest bid amound to the lowest bidder as a commencement payment
+        // 3. Interaction. 
+        // Transfer the delta back to Homeowner
+        // Transfer 30% of the lowest bid amount to the lowest bidder as a commencement payment
         sender.transfer(address(this).balance.sub(lowestBid));
         uint amount = lowestBid.mul(30).div(100);
         lowestBidder.transfer(amount);
@@ -145,9 +147,9 @@ contract TaskAuction {
         satisfied = false;
         emit TaskFinished(lowestBidder, false);
         
-        // 3. Interaction. Transfer both the Air Token and the remainder of ETH to the homeowner;
-        token.transfer(sender, lowestBid);
-        sender.transfer(address(this).balance);
+        // 3. Interaction. Lock the Air Token and ETH;
+        // token.transfer(sender, lowestBid);
+        // sender.transfer(address(this).balance);
         }
     
     
