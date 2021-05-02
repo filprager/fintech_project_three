@@ -26,6 +26,10 @@ Local:
 ![Logical Diagram](image/logical-diagram.png)
 
 
+## Contract Hierarchy
+![Contract Hierarchy](image/hierarchy.png)
+
+
 ## Physical Diagram
 ![Physical Diagram](image/physical-diagram.png)
 
