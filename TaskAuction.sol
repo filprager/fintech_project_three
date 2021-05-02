@@ -143,6 +143,8 @@ contract TaskAuction {
         }
     
     function unFinishofTask( address payable sender) public payable{
+        require(ended, "Please end auction first!");
+
         // 2. Effects        
         satisfied = false;
         emit TaskFinished(lowestBidder, false);

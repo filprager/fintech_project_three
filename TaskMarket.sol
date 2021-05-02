@@ -68,9 +68,10 @@ contract TaskMarket is ERC721Full, Ownable {
         auction.FinishofTask(msg.sender);}
    
     function unfinishoftask(uint token_id) public taskRegistered(token_id) {
+        require(msg.sender == foundation_address, "you don't have the right to run this function.");
         
         TaskAuction auction = auctions[token_id];
-        auction.unFinishofTask(msg.sender);}
+        auction.unFinishofTask(foundation_address);}
     
     function lowestBid(uint token_id) public view taskRegistered(token_id) returns(uint) {
         TaskAuction auction = auctions[token_id];

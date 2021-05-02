@@ -56,6 +56,7 @@
 		"type": "event"
 	},
 	{
+
 		"anonymous": false,
 		"inputs": [
 			{
@@ -198,6 +199,7 @@
 		"type": "function"
 	},
 	{
+
 		"constant": true,
 		"inputs": [],
 		"name": "baseURI",
@@ -206,10 +208,13 @@
 				"internalType": "string",
 				"name": "",
 				"type": "string"
+
 			}
 		],
+		"name": "unfinishoftask",
+		"outputs": [],
 		"payable": false,
-		"stateMutability": "view",
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -219,7 +224,24 @@
 				"internalType": "uint256",
 				"name": "token_id",
 				"type": "uint256"
+			}
+		],
+		"name": "withdraw",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "token_id",
+				"type": "uint256"
+
 			},
+
 			{
 				"internalType": "uint256",
 				"name": "amount",
@@ -479,6 +501,7 @@
 		"type": "function"
 	},
 	{
+
 		"constant": false,
 		"inputs": [],
 		"name": "recharge",
@@ -499,6 +522,7 @@
 				"internalType": "address payable",
 				"name": "homeowner",
 				"type": "address"
+
 			}
 		],
 		"name": "registerTask",
@@ -603,9 +627,9 @@
 		"name": "supportsInterface",
 		"outputs": [
 			{
-				"internalType": "bool",
+				"internalType": "string",
 				"name": "",
-				"type": "bool"
+				"type": "string"
 			}
 		],
 		"payable": false,
@@ -633,6 +657,7 @@
 		"name": "token",
 		"outputs": [
 			{
+
 				"internalType": "contract AirToken",
 				"name": "",
 				"type": "address"

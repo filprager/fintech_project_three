@@ -1,6 +1,7 @@
 // @TODO: Update this address to match your deployed TaskMarket contract!
 const contractAddress = "0x722323d4fC9Aa78E31c8cF830E45E1a82bD7F2a6";
 
+
 const dApp = {
   ethEnabled: function() {
     // If the browser has an Ethereum provider (MetaMask) installed
