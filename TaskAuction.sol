@@ -150,8 +150,8 @@ contract TaskAuction {
         emit TaskFinished(lowestBidder, false);
         
         // 3. Interaction. Lock the Air Token and ETH;
-        // token.transfer(sender, lowestBid);
-        // sender.transfer(address(this).balance);
+        token.transfer(sender, lowestBid);
+        sender.transfer(address(this).balance);
         }
     
     
