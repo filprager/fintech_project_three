@@ -56,28 +56,16 @@ Solidity, Pinnata, Remix, Ganache, MetaMask, HTML, Javascript
 
 ## Contributors
 Fil (@filprager)  
-- Email:  
-- LinkedIn:   
-- Twitter:
-- Tasks:    
+- LinkedIn: http://linkedin.com/in/filprager
 
 Mark (@marksenyang)
-- Email: marksenyang@gmail.com
 - LinkedIn: https://www.linkedin.com/in/marksenyang/
-- Twitter: https://twitter.com/MarkSenYangAu
-- Tasks: 
 
 Paul (@emo-hs)
-- Email: 
-- LinkedIn: 
-- Twitter: 
-- Tasks: 
+- LinkedIn: http://linkedin.com/in/paul-han-885b15a0
 
-Sammuel (@risksam)
-- Email: 
-- LinkedIn: 
-- Twitter: 
-- Tasks: 
+Samuel (@risksam)
+- LinkedIn: https://www.linkedin.com/in/samuel-wytenburg/
 
 
 
