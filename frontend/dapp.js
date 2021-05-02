@@ -1,9 +1,5 @@
 // @TODO: Update this address to match your deployed TaskMarket contract!
-<<<<<<< HEAD
-const contractAddress = "0x56c0A345a9Cf512Dc0302c6B835671484a47435A";
-=======
-const contractAddress = "0xDB53e5115f476F6FA1b8152c98283c7A91390Ae4";
->>>>>>> master
+const contractAddress = "0x576De4d10B13ad3FA1d1F378b60b206E100551eD";
 
 
 const dApp = {
