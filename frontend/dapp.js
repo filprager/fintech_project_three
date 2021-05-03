@@ -1,5 +1,5 @@
 // @TODO: Update this address to match your deployed TaskMarket contract!
-const contractAddress = "0xe51Bfb55FB318e22A9C4416F98421BA57f0c364a";
+const contractAddress = "0xEca110DbaC7E78e27d741c54FD25351055Cb4535";
 
 
 const dApp = {
@@ -31,7 +31,8 @@ const dApp = {
           tokenId: i,
           lowestBid: Number(await this.marsContract.methods.lowestBid(i).call()),
           auctionEnded: Boolean(await this.marsContract.methods.auctionEnded(i).call()),
-          // pendingReturn: Number(await this.marsContract.methods.pendingReturn(i, this.accounts[0]).call()),
+          //pendingBids: Number(await this.marsContract.methods.pendingBids(i, this.accounts[0]).call()),
+          pendingDeposit: Number(await this.marsContract.methods.pendingDeposit(i).call()),
           auction: new window.web3.eth.Contract(
             this.auctionJson,
             await this.marsContract.methods.auctions(i).call(),
@@ -61,11 +62,14 @@ const dApp = {
     $("#dapp-tokens").html("");
     this.tokens.forEach((token) => {
       try {
-        let endAuction = `<a id="${token.tokenId}" class="dapp-admin" style="display:none;" href="#" onclick="dApp.endAuction(event)">End Auction</a>`;
-        let bid = `<a id="${token.tokenId}" href="#" onclick="dApp.bid(event);">Bid</a>`;
+        let endAuction = `<a id="${token.tokenId}" class="dapp-admin" style="display:none;" href="#" onclick="dApp.endAuction(event)">End_Auction</a>`;
+        let stopAuction = `<a id="${token.tokenId}" class="dapp-admin" style="display:none;" href="#" onclick="dApp.stopAuction(event)">Stop_Auction</a>`;
+        let bid = `<a id="${token.tokenId}" href="#" onclick="dApp.bid(event);">Bid</a>`;      
         let owner = `Owner: ${token.owner}`;
-        let withdraw = `<a id="${token.tokenId}" href="#" onclick="dApp.withdraw(event)">Withdraw</a>`
-        let pendingWithdraw = `Balance: ${token.pendingDeposit} wei`;
+        let withdraw = `<a id="${token.tokenId}" href="#" onclick="dApp.withdraw(event)">Withdraw</a>`;
+        let deposit = `<a id="${token.tokenId}" href="#" onclick="dApp.deposit(event)">Deposit</a>`
+        let pendingBudget = `Balance : ${token.pendingDeposit} wei`;
+        let recharge = `<a id="${token.tokenId}" href="#" onclick="dApp.recharge(event)">Recharge</a>`;
           $("#dapp-tokens").append(
             `<div class="col m6">
               <div class="card">
@@ -74,11 +78,18 @@ const dApp = {
                   <span id="dapp-name" class="card-title">${token.name}</span>
                 </div>
                 <div class="card-action">
+                  
                   <input type="number" min="${token.lowestBid}" name="dapp-wei" value="${token.lowestBid}" ${token.auctionEnded ? 'disabled' : ''}>
-                  ${token.auctionEnded ? owner : bid}
-                  ${token.pendingDeposit > 0 ? withdraw : ''}
-                  ${token.pendingDeposit > 0 ? pendingWithdraw : ''}
+                  
+                  ${!this.isAdmin ? owner : ''}
+                  ${!this.isAdmin && !token.auctionEnded ? bid : ''}
+                  
+                  ${token.auctionEnded ? '' : recharge}
+                  
+                  ${token.pendingBids > 0 ? withdraw : ''}
                   ${this.isAdmin && !token.auctionEnded ? endAuction : ''}
+                  ${this.isAdmin && !token.auctionEnded ? stopAuction : ''}
+                  ${this.isAdmin && !token.auctionEnded ? deposit : pendingBudget}
                 </div>
               </div>
             </div>`
@@ -91,10 +102,26 @@ const dApp = {
     // hide or show admin functions based on contract ownership
     this.setAdmin();
   },
-  bid: async function(event) {
+  deposit: async function(event) {
     const tokenId = $(event.target).attr("id");
     const wei = Number($(event.target).prev().val());
-    await this.marsContract.methods.bid(tokenId).send({from: this.accounts[0], value: wei}, async () => {
+    await this.marsContract.methods.deposit(tokenId).send({from: this.accounts[0], value: wei}, async () => {
+      await this.updateUI();
+    });
+  },
+
+  recharge: async function(event) {
+    const tokenId = $(event.target).attr("id");
+    const wei = Number($(event.target).prev().val());
+    await this.marsContract.methods.recharge().send({from: this.accounts[0], value: wei}, async () => {
+      await this.updateUI();
+    });
+  },
+
+  bid: async function(event) {
+    const tokenId = $(event.target).attr("id");
+    const AIRT = Number($("#dapp-airtoken").val());
+    await this.marsContract.methods.bid(tokenId, AIRT).send({from: this.accounts[0]}, async () => {
       await this.updateUI();
     });
   },
@@ -104,10 +131,16 @@ const dApp = {
       await this.updateUI();
     });
   },
+  stopAuction: async function(event) {
+    const tokenId = $(event.target).attr("id");
+    await this.marsContract.methods.auctionStop(tokenId).send({from: this.accounts[0]}, async () => {
+      await this.updateUI();
+    });
+  },
   withdraw: async function(event) {
     const tokenId = $(event.target).attr("id");
     // await this.tokens[tokenId].auction.methods.withdraw().send({from: this.accounts[0]}, async () => {
-    await this.marsContract.methods.withdraw().send({from: this.accounts[0]}, async () => {  
+    await this.marsContract.methods.withdraw(tokenId).send({from: this.accounts[0]}, async () => {  
       await this.updateUI();
     });
   },
