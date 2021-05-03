@@ -6,7 +6,7 @@ AirChain is a DApp that connects homeowners with builders by auctioning tasks. H
 ## How to Run the DApp
 Ropsten Test Network:
 1. Switch to Ropsten Test Network on MetaMask
-2. Click [here](frontend/index.html) to launch the application.
+2. Click [here](https://marksenyang.github.io/AirChain/frontend/index.html) to launch the application.
 
 Local:  
 1. Set up your local Ethereum blockchain network on Ganache and make sure to increase the **gas limit**
