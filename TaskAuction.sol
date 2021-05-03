@@ -16,7 +16,8 @@ contract TaskAuction {
     
     // Allowed withdrawals of previous bids
     mapping(address => uint) pendingBids;
-
+    address[] public addressIndices;
+    
     // Set to true at the end, disallows any change.
     // By default initialized to `false`.
     bool public ended;
@@ -27,6 +28,7 @@ contract TaskAuction {
     event LowestBidDecreased(address bidder, uint amount);
     event Budget(address homeowner, uint amount);
     event AuctionEnded(address winner, uint amount);
+    event AuctionStopped(address homeowner);
     event TaskFinished(address winner, bool satisfied);
     
     /// Create a simple auction with `_biddingTime`
@@ -74,12 +76,12 @@ contract TaskAuction {
             // because it could execute an untrusted contract.
             // It is always safer to let the recipients
             // withdraw their money themselves.
-            pendingBids[lowestBidder] += lowestBid;
+            pendingBids[sender] += amount;
         }
         
         lowestBidder = sender;
         lowestBid = amount;
-        
+        addressIndices.push(lowestBidder);
         emit LowestBidDecreased(sender, amount);
     }
     /// Withdraw a bid that was overbid.
@@ -129,15 +131,21 @@ contract TaskAuction {
         // 1. Conditions
         require(!ended, "auctionEnd has already been called.");
         require(sender == homeowner, "You are not the auction beneficiary");
-
+        
         // 2. Effects
         ended = true;
 
         // 3. Interaction. 
-        
+         
+        for (uint i=0; i < addressIndices.length; i++) {
+            uint amount = pendingBid(addressIndices[i]);
+            if (amount > 0) {
+                pendingBids[addressIndices[i]] =0;
+                token.transfer(addressIndices[i], amount);}
+        }
         sender.transfer(address(this).balance);
-        
-    }
+        emit AuctionStopped(sender); 
+    }  
     
     // Homeowner confirms if he is satisfied with the task 
     // after auction ended. 
