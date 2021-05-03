@@ -79,7 +79,7 @@ const dApp = {
                 </div>
                 <div class="card-action">
                   
-                  <input type="number" min="${token.lowestBid}" name="dapp-wei" value="${token.lowestBid}" ${token.auctionEnded ? 'disabled' : ''}>
+                  <input type="number" name="dapp-wei" value="${0}" ${token.auctionEnded ? 'disabled' : ''}>
                   
                   ${!this.isAdmin ? owner : ''}
                   ${!this.isAdmin && !token.auctionEnded ? bid : ''}
@@ -121,7 +121,7 @@ const dApp = {
   bid: async function(event) {
     const tokenId = $(event.target).attr("id");
     const AIRT = Number($("#dapp-airtoken").val());
-    await this.marsContract.methods.bid(tokenId, AIRT).send({from: this.accounts[0]}, async () => {
+    await this.marsContract.methods.bid(tokenId, AIRT).send({from: this.accounts[0],value: AIRT}, async () => {
       await this.updateUI();
     });
   },
