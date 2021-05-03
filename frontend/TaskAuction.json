@@ -123,6 +123,21 @@
 		"type": "function"
 	},
 	{
+		"constant": false,
+		"inputs": [
+			{
+				"internalType": "address payable",
+				"name": "sender",
+				"type": "address"
+			}
+		],
+		"name": "auctionStop",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
 		"constant": true,
 		"inputs": [],
 		"name": "balance",

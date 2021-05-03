@@ -82,6 +82,21 @@
 				"internalType": "uint256",
 				"name": "token_id",
 				"type": "uint256"
+			}
+		],
+		"name": "auctionStop",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "token_id",
+				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
