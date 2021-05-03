@@ -36,7 +36,7 @@ Local:
 
 
 ## Technology Stack
-Solidity, Pinnata, Remix, Ganache, MetaMask, HTML, Javascript
+Solidity, Pinnata, Remix, Ganache, MetaMask, HTML5, Javascript, IPFS
 
 
 ## Explanation of Each File and Folder
