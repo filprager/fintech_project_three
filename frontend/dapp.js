@@ -2,6 +2,7 @@
 const contractAddress = "0xEca110DbaC7E78e27d741c54FD25351055Cb4535";
 
 
+
 const dApp = {
   ethEnabled: function() {
     // If the browser has an Ethereum provider (MetaMask) installed
