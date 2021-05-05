@@ -1,20 +1,20 @@
 # AirChain DApp - AirTasker on Blockchain
 ![profile](image/profile.jpg)
 
-AirChain is a dApp that connects homeowners with builders together by auctioning handy tasks. Homeowners can post handy tasks on the dApp, then builders can bid for the lowest price that they are willing to do the task for. Homeowners pay builders by Etherium, and builders bid by Air Token, which is a token made specifically for our bidding system.
+AirChain is a DApp that connects homeowners with builders by auctioning tasks. Homeowners post details of their desired task on the DApp, then builders can bid their offer price to perform the task. The lowest price from the builder wins the auction (more conditions can be added in future). Homeowners pay builders with Ether, and builders bid with AirTokens, which are tokens made specifically for our bidding system.
 
 ## How to Run the DApp
-Ropster Test Network:
-1. Switch to Ropster Test Network on MetaMask
+Ropsten Test Network:
+1. Switch to Ropsten Test Network on MetaMask
 2. Click [here](https://filprager.github.io/fintech_project_three/frontend/index.html#) to launch the application.
 
 Local:  
-1. Set up your local Etherium blockchain network on Ganache and make sure to increase the **gas limit**
+1. Set up your local Ethereum blockchain network on Ganache and make sure to increase the **gas limit**
 2. Switch to Localhost on MetaMask
 3. Tick the **Enable optimization** checkbox  
-4. Deploy the `TaskMarket.sol` contract on Remix and copy it address
+4. Deploy the `TaskMarket.sol` contract on Remix and copy its address
 5. Replace the contract address in line 2 in `dapp.js` by the deployed `TaskMarket.sol` contract address
-6. Open Terminal/Git Bash and `cd` into the `frontend` folder of this dApp
+6. Open Terminal/Git Bash and `cd` into the `frontend` folder of this DApp
 7. Run the following command `python -m http.server 8000`
 8. Open your browser and visit http://0.0.0.0:8000
 
@@ -36,7 +36,7 @@ Local:
 
 
 ## Technology Stack
-Solidity, Pinnata, Remix, Ganache, MetaMask, HTML, Javascript
+Solidity, Pinnata, Remix, Ganache, MetaMask, HTML5, Javascript, IPFS
 
 
 ## Explanation of Each File and Folder
