@@ -22,7 +22,7 @@ contract TaskAuction {
     // By default initialized to `false`.
     bool public ended;
     bool public satisfied;
-    
+    bool public finished;
 
     // Events that will be emitted on changes.
     event LowestBidDecreased(address bidder, uint amount);
@@ -46,9 +46,8 @@ contract TaskAuction {
     function deposit(address payable sender) public payable {
         require(sender == homeowner, "You cannot deposit into this auction!");
         require(!ended, "auctionEnd has already been called.");
-        lowestBid = msg.value;
-        lowestBidder = sender;
-        
+        sender = lowestBidder;
+        lowestBid += msg.value;
         emit Budget(sender, msg.value);
     }
 
@@ -61,7 +60,7 @@ contract TaskAuction {
         // money back.
         
         require(
-            amount < lowestBid,
+            amount < lowestBid, 
             "There already is a lower bid."
         );
         require(sender != homeowner, "You cannot bid on your own task!");
@@ -152,7 +151,8 @@ contract TaskAuction {
     function FinishofTask( address payable sender) public payable{
         require(ended, "Please end auction first!");
         require(sender == homeowner, "You are not the homeowner");
-        // 2. Effects        
+        // 2. Effects
+        finished = true;
         satisfied = true;
         emit TaskFinished(lowestBidder, true);
         
@@ -168,7 +168,8 @@ contract TaskAuction {
     function unFinishofTask( address payable sender) public payable{
         require(ended, "Please end auction first!");
 
-        // 2. Effects        
+        // 2. Effects
+        finished = true; 
         satisfied = false;
         emit TaskFinished(lowestBidder, false);
         
