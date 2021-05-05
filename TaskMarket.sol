@@ -54,7 +54,7 @@ contract TaskMarket is ERC721Full, Ownable {
     function endAuction(uint token_id) public taskRegistered(token_id) {
         TaskAuction auction = auctions[token_id];
         auction.auctionEnd(msg.sender);
-        safeTransferFrom(msg.sender, auction.lowestBidder(), token_id);
+        
     }
 
     function auctionEnded(uint token_id) public view taskRegistered(token_id)  returns(bool) {
@@ -62,16 +62,30 @@ contract TaskMarket is ERC721Full, Ownable {
         return auction.ended();
     }
     
+     function taskFinished(uint token_id) public view taskRegistered(token_id)  returns(bool) {
+        TaskAuction auction = auctions[token_id];
+        return auction.finished();
+    }
+    
+    
+    function Satisfied(uint token_id) public view taskRegistered(token_id)  returns(bool) {
+        TaskAuction auction = auctions[token_id];
+        return auction.satisfied();
+    }
+    
     function finishoftask(uint token_id) public taskRegistered(token_id) {
         
         TaskAuction auction = auctions[token_id];
-        auction.FinishofTask(msg.sender);}
+        auction.FinishofTask(msg.sender);
+        safeTransferFrom(msg.sender, auction.lowestBidder(), token_id);
+    }
    
     function unfinishoftask(uint token_id) public taskRegistered(token_id) {
         require(msg.sender == foundation_address, "you don't have the right to run this function.");
         
         TaskAuction auction = auctions[token_id];
-        auction.unFinishofTask(foundation_address);}
+        auction.unFinishofTask(foundation_address);
+        }
 
      function auctionStop(uint token_id) public taskRegistered(token_id) {
         
@@ -81,6 +95,11 @@ contract TaskMarket is ERC721Full, Ownable {
     function lowestBid(uint token_id) public view taskRegistered(token_id) returns(uint) {
         TaskAuction auction = auctions[token_id];
         return auction.lowestBid();
+    }
+    
+    function lowestBidder(uint token_id) public view taskRegistered(token_id) returns(address) {
+        TaskAuction auction = auctions[token_id];
+        return auction.lowestBidder();
     }
 
     function pendingDeposit(uint token_id) public view taskRegistered(token_id) returns(uint) {
@@ -124,8 +143,9 @@ contract TaskMarket is ERC721Full, Ownable {
     function balance_air() public view returns(uint) {
         return token.balanceOf(msg.sender);
     }
+    
 }
 
-
+    
 
 
